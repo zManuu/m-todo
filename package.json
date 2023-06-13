@@ -13,12 +13,14 @@
     "Other"
   ],
   "contributes": {
-    "commands": [
-      {
-        "command": "todo",
-        "title": "Todo"
-      }
-    ]
+    "views": {
+      "explorer": [
+        {
+          "id": "m-todo-explorer",
+          "name": "Todo"
+        }
+      ]
+    }
   },
   "activationEvents": [],
   "main": "./out/extension.js",

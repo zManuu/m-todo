@@ -1,0 +1,2 @@
+- refresh treeview upon file change
+- remove \n from todos

@@ -3,13 +3,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { checkedFiles } from './extension'
 
-function getWorkspaceType(): WorkspaceType {
-	return vscode.workspace.workspaceFile
-		? 'file'
-		: vscode.workspace.workspaceFolders
-			? 'folder'
-			: 'empty'
-}
+const todoRegex = /(\s+)?\/\/(\s+)?todo(:)?(\s+)?/g
 
 function getAllFiles(dirPath: string, arrayOfFiles: string[] = []): string[] {
 	const files = fs.readdirSync(dirPath)
@@ -66,14 +60,14 @@ function getTodoEntries(): TodoEntry[] {
 		for (let i=0; i<fileLines.length; i++) {
 			const fileLine = fileLines[i]
 
-			if (!fileLine.includes('// todo:'))
+			if (!todoRegex.test(fileLine))
 				continue
 
 			res.push({
 				fileUrl,
 				fullLine: fileLine,
-				line: i + 1,
-				todo: fileLine.substring(9)
+				line: i,
+				todo: fileLine.replace(todoRegex, '')
 			})
 		}
 	}
@@ -81,6 +75,15 @@ function getTodoEntries(): TodoEntry[] {
 	return res
 }
 
+function prettifyPath(str: string, pathType: '/' | '//' | '\\' | '\\\\') {
+	return str
+		.toLowerCase()
+		.replaceAll(':', '')
+		.split(pathType)
+		.join(' -> ')
+}
+
 export {
-	getTodoEntries
+	getTodoEntries,
+	prettifyPath
 }

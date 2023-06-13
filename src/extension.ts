@@ -1,14 +1,13 @@
 import * as vscode from 'vscode'
-import * as utils from './utils'
+import todoDataProvider from './todoDataProvider'
 
 const checkedFiles = ['ts', 'js']
 
-function activate(context: vscode.ExtensionContext) {
-	const commandDisposable = vscode.commands.registerCommand('todo', () => {
-		vscode.window.showInformationMessage(JSON.stringify(utils.getTodoEntries()))
+function activate() {
+	vscode.window.registerTreeDataProvider('m-todo-explorer', todoDataProvider)
+	vscode.window.createTreeView('m-todo-explorer', {
+		treeDataProvider: todoDataProvider
 	})
-
-	context.subscriptions.push(commandDisposable)
 }
 
 export {
