@@ -75,15 +75,24 @@ function getTodoEntries(): TodoEntry[] {
 	return res
 }
 
-function prettifyPath(str: string, pathType: '/' | '//' | '\\' | '\\\\') {
-	return str
-		.toLowerCase()
-		.replaceAll(':', '')
-		.split(pathType)
-		.join(' -> ')
+function getFilePath(url: string) {
+	if (vscode.workspace.workspaceFile
+		|| !vscode.workspace.workspaceFolders
+		|| vscode.workspace.workspaceFolders.length === 0
+	)
+		return url
+
+	const rootFolder = vscode.workspace.workspaceFolders.find(e => url.startsWith(e.uri.fsPath))
+	
+	if (!rootFolder)
+		return url
+
+	return url
+		.substring(rootFolder.uri.fsPath.length + 1)
+		.replaceAll('\\', '/')
 }
 
 export {
 	getTodoEntries,
-	prettifyPath
+	getFilePath
 }

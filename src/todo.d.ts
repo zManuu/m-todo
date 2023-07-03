@@ -4,3 +4,5 @@ declare type TodoEntry = {
   line: number
   todo: string
 }
+
+declare type Nullable<T> = T | undefined

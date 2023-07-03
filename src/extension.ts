@@ -1,12 +1,17 @@
 import * as vscode from 'vscode'
-import todoDataProvider from './todoDataProvider'
+import TodoDataProvider from './todoDataProvider'
 
 const checkedFiles = ['ts', 'js']
+const todoDataProvider = new TodoDataProvider()
 
 function activate() {
 	vscode.window.registerTreeDataProvider('m-todo-explorer', todoDataProvider)
 	vscode.window.createTreeView('m-todo-explorer', {
 		treeDataProvider: todoDataProvider
+	})
+
+	vscode.workspace.onDidSaveTextDocument(() => {
+		todoDataProvider.refresh()
 	})
 }
 
