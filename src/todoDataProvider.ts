@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'
 import { getTodoEntries, getFilePath } from './utils'
+import path = require('path')
 
 export default class TreeDataProvider implements vscode.TreeDataProvider<TodoEntry> {
 
@@ -20,7 +21,9 @@ export default class TreeDataProvider implements vscode.TreeDataProvider<TodoEnt
 			)
 		}
 	
+		vscode.window.showInformationMessage(fileUri.toString())
 		treeItem.tooltip = getFilePath(element.fileUrl)
+		treeItem.iconPath = path.join(__filename, '..', '..', 'resources', 'icon.png')
 		treeItem.command = {
 			command: 'vscode.open',
 			title: '',
