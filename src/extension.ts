@@ -10,9 +10,8 @@ function activate() {
 		treeDataProvider: todoDataProvider
 	})
 
-	vscode.workspace.onDidSaveTextDocument(() => {
-		todoDataProvider.refresh()
-	})
+	vscode.workspace.onDidSaveTextDocument(() => todoDataProvider.refresh())
+	vscode.workspace.onDidDeleteFiles(() => todoDataProvider.refresh())
 }
 
 export {
