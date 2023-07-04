@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'
 import { getTodoEntries, getFilePath } from './utils'
-import path = require('path')
+import path from 'path'
 
 export default class TreeDataProvider implements vscode.TreeDataProvider<TodoEntry> {
 
@@ -12,7 +12,7 @@ export default class TreeDataProvider implements vscode.TreeDataProvider<TodoEnt
 
 	getTreeItem(element: TodoEntry) {
 		const treeItem = new vscode.TreeItem(element.todo)
-		const fileUri = vscode.Uri.parse(element.fileUrl)
+		const fileUri = vscode.Uri.file(element.fileUrl)
 	
 		const openSettings: vscode.TextDocumentShowOptions = {
 			selection: new vscode.Range(
@@ -21,7 +21,6 @@ export default class TreeDataProvider implements vscode.TreeDataProvider<TodoEnt
 			)
 		}
 	
-		vscode.window.showInformationMessage(fileUri.toString())
 		treeItem.tooltip = getFilePath(element.fileUrl)
 		treeItem.iconPath = path.join(__filename, '..', '..', 'resources', 'icon.png')
 		treeItem.command = {
